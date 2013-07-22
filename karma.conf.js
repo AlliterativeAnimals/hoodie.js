@@ -33,6 +33,7 @@ files = [
   'test/mocks/*.js',
   //'test/specs/**/*.spec.js'
   'test/specs/events.spec.js',
+  'test/specs/hoodie.spec.js',
   'test/specs/core/remote.spec.js',
   'test/specs/core/config.spec.js'
 ];

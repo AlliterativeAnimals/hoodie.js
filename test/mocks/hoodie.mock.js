@@ -1,6 +1,5 @@
-var promiseMock;
-
-var Mocks = window.Mocks || {};
+var promiseMock,
+    Mocks = window.Mocks || {};
 
 promiseMock = {
   pipe: function () {},
