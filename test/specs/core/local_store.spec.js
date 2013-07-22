@@ -1,7 +1,12 @@
+'use strict';
+
+
 describe("Hoodie.LocalStore", function() {
+
   beforeEach(function() {
     this.hoodie = new Mocks.Hoodie;
     this.store = new Hoodie.LocalStore(this.hoodie);
+
     spyOn(this.store, "_setObject").andCallThrough();
     spyOn(this.store, "_getObject").andCallThrough();
     spyOn(this.store.db, "getItem").andCallThrough();
@@ -13,11 +18,14 @@ describe("Hoodie.LocalStore", function() {
       cb();
       return 'newTimeout';
     });
+
   });
 
-  // 
+  //
   describe("constructor", function() {
+
     _when("there are dirty objects in localStorage", function() {
+
       beforeEach(function() {
         Hoodie.LocalStore.prototype.db.getItem.andCallFake(function(key) {
           if (key === '_dirty') {
@@ -31,21 +39,25 @@ describe("Hoodie.LocalStore", function() {
         };
         spyOn(Hoodie.LocalStore.prototype, "_getObject").andReturn(this.object);
         spyOn(Hoodie.LocalStore.prototype, "_hasLocalChanges").andReturn(true);
-        return spyOn(Hoodie.LocalStore.prototype, "trigger");
+        spyOn(Hoodie.LocalStore.prototype, "trigger");
       });
+
       it("should trigger idle event if there are dirty objects in localStorage", function() {
         var store;
         spyOn(Hoodie.LocalStore.prototype, "changedObjects").andReturn([1, 2, 3]);
         store = new Hoodie.LocalStore(this.hoodie);
-        return expect(Hoodie.LocalStore.prototype.trigger).wasCalledWith('idle', [1, 2, 3]);
+        expect(Hoodie.LocalStore.prototype.trigger).wasCalledWith('idle', [1, 2, 3]);
       });
-      return it("should cache dirty objects", function() {
+
+      it("should cache dirty objects", function() {
         var store;
         spyOn(Hoodie.LocalStore.prototype, "cache");
         store = new Hoodie.LocalStore(this.hoodie);
-        return expect(store.cache).wasCalledWith('task', '1');
+        expect(store.cache).wasCalledWith('task', '1');
       });
+
     });
+
     it("should not mess with LocalStore.prototype", function() {
       var promise, store1, store2;
       spyOn(Hoodie.LocalStore.prototype, "isPersistent").andReturn(false);
@@ -56,15 +68,18 @@ describe("Hoodie.LocalStore", function() {
       store2 = new Hoodie.LocalStore(this.hoodie);
       expect(store2._cached['car/123']).toBeUndefined();
       promise = store2.find('car', '123');
-      return promise.then(function(wtf) {
-        return console.log(JSON.stringify(wtf, '', '  '));
+      promise.then(function(wtf) {
+        console.log(JSON.stringify(wtf, '', '  '));
       });
     });
+
   });
 
-  // 
+  //
   describe("outside events", function() {
+
     _when("account:cleanup event gets fired", function() {
+
       beforeEach(function() {
         spyOn(this.store, "clear");
         this.hoodie.trigger('account:cleanup')
@@ -77,6 +92,7 @@ describe("Hoodie.LocalStore", function() {
     });
 
     _when("account:signup event gets fired", function() {
+
       beforeEach(function() {
         spyOn(this.store, "markAllAsChanged");
         this.hoodie.trigger('account:signup');
@@ -86,9 +102,11 @@ describe("Hoodie.LocalStore", function() {
       xit("should mark all objects as changed", function() {
         expect(this.store.markAllAsChanged).wasCalled();
       });
+
     });
 
     _when("remote:change event gets fired", function() {
+
       beforeEach(function() {
         this.object = {
           type: 'car',
@@ -96,31 +114,41 @@ describe("Hoodie.LocalStore", function() {
           color: 'red'
         };
       });
+
       _and("an object was removed", function() {
+
         beforeEach(function() {
           spyOn(this.store, "remove");
           this.hoodie.trigger('remote:change', 'remove', this.object);
         });
+
         it("removes the object in store", function() {
           expect(this.store.remove).wasCalledWith('car', '123', {
             remote: true
           });
         });
+
       });
+
       _and("an object was updated", function() {
+
         beforeEach(function() {
           spyOn(this.store, "save");
           this.hoodie.trigger('remote:change', 'update', this.object);
         });
+
         it("updates the object in store", function() {
           expect(this.store.save).wasCalledWith('car', '123', this.object, {
             remote: true
           });
         });
+
       });
+
     });
 
     _when("remote:bootstrap:start event gets fired", function() {
+
       beforeEach(function() {
         expect(this.store.isBootstrapping()).toBeFalsy();
         spyOn(this.store, "trigger");
@@ -136,6 +164,7 @@ describe("Hoodie.LocalStore", function() {
       });
 
       _and("remote:bootstrap:end event gets fired", function() {
+
         beforeEach(function() {
           this.hoodie.trigger('remote:bootstrap:end');
         });
@@ -144,32 +173,39 @@ describe("Hoodie.LocalStore", function() {
           expect(this.store.isBootstrapping()).toBe(false);
         });
       })
+
     })
+
   });
 
-  // 
+  //
   describe("#save(type, id, object, options)", function() {
+
     beforeEach(function() {
-      return spyOn(this.store, "_now").andReturn('now');
+      spyOn(this.store, "_now").andReturn('now');
     });
+
     it("should return a promise", function() {
       var promise;
       promise = this.store.save('document', '123', {
         name: 'test'
       });
-      return expect(promise).toBePromise();
+      expect(promise).toBePromise();
     });
+
     describe("invalid arguments", function() {
+
       _when("no arguments passed", function() {
-        return it("should be rejected", function() {
-          return expect(this.store.save()).toBeRejected();
+        it("should be rejected", function() {
+          expect(this.store.save()).toBeRejected();
         });
       });
-      return _when("no object passed", function() {
-        return it("should be rejected", function() {
+
+      _when("no object passed", function() {
+        it("should be rejected", function() {
           var promise;
           promise = this.store.save('document', 'abc4567');
-          return expect(promise).toBeRejected();
+          expect(promise).toBeRejected();
         });
       });
     });
@@ -556,7 +592,7 @@ describe("Hoodie.LocalStore", function() {
     });
   });
 
-  // 
+  //
   describe("#add(type, object, options)", function() {
     beforeEach(function() {
       return spyOn(this.store, "save").andReturn('promise');
@@ -591,7 +627,7 @@ describe("Hoodie.LocalStore", function() {
     });
   });
 
-  // 
+  //
   describe("#updateAll(objects)", function() {
     beforeEach(function() {
       spyOn(this.hoodie, "isPromise").andReturn(false);
@@ -683,7 +719,7 @@ describe("Hoodie.LocalStore", function() {
     });
   });
 
-  // 
+  //
   describe("#find(type, id)", function() {
     beforeEach(function() {
       spyOn(this.store, "cache").andCallThrough();
@@ -754,7 +790,7 @@ describe("Hoodie.LocalStore", function() {
     });
   });
 
-  // 
+  //
   describe("#findAll(filter)", function() {
     var with_2CatsAnd_3Dogs;
     with_2CatsAnd_3Dogs = function(specs) {
@@ -880,7 +916,7 @@ describe("Hoodie.LocalStore", function() {
     });
   });
 
-  // 
+  //
   describe("#remove(type, id)", function() {
     _when("objecet cannot be found", function() {
       beforeEach(function() {
@@ -1024,7 +1060,7 @@ describe("Hoodie.LocalStore", function() {
     });
   });
 
-  // 
+  //
   describe("#cache(type, id, object)", function() {
     beforeEach(function() {
       spyOn(this.store, "markAsChanged");
@@ -1198,7 +1234,7 @@ describe("Hoodie.LocalStore", function() {
     });
   });
 
-  // 
+  //
   describe("#clear()", function() {
     it("should return a promise", function() {
       var promise;
@@ -1241,7 +1277,7 @@ describe("Hoodie.LocalStore", function() {
     });
   });
 
-  // 
+  //
   describe("#hasLocalChanges(type, id)", function() {
     _when("no arguments passed", function() {
       it("returns true when there are dirty documents", function() {
@@ -1319,7 +1355,7 @@ describe("Hoodie.LocalStore", function() {
     });
   });
 
-  // 
+  //
   describe("#markAsChanged(type, id, object)", function() {
     beforeEach(function() {
       this.store._dirty = {};
@@ -1349,7 +1385,7 @@ describe("Hoodie.LocalStore", function() {
     });
   });
 
-  // 
+  //
   describe("#markAllAsChanged(type, id, object)", function() {
     beforeEach(function() {
       this.findAllDefer = this.hoodie.defer();
@@ -1422,7 +1458,7 @@ describe("Hoodie.LocalStore", function() {
     });
   });
 
-  // 
+  //
   describe("#changedObjects()", function() {
     _when("there are no changed docs", function() {
       beforeEach(function() {
@@ -1456,7 +1492,7 @@ describe("Hoodie.LocalStore", function() {
     });
   });
 
-  // 
+  //
   describe("#isMarkedAsDeleted(type, id)", function() {
     _when("object 'couch/123' is marked as deleted", function() {
       beforeEach(function() {
@@ -1478,7 +1514,7 @@ describe("Hoodie.LocalStore", function() {
     });
   });
 
-  // 
+  //
   describe("#clearChanged(type, id)", function() {
     it("should clear _dirtyTimeout", function() {
       this.store._dirtyTimeout = 1;
@@ -1528,7 +1564,7 @@ describe("Hoodie.LocalStore", function() {
     });
   });
 
-  // 
+  //
   describe("#trigger", function() {
     beforeEach(function() {
       return spyOn(this.hoodie, "trigger");
@@ -1543,7 +1579,7 @@ describe("Hoodie.LocalStore", function() {
     });
   });
 
-  // 
+  //
   describe("#on", function() {
     beforeEach(function() {
       spyOn(this.hoodie, "on");
@@ -1564,7 +1600,7 @@ describe("Hoodie.LocalStore", function() {
     });
   });
 
-  // 
+  //
   describe("#unbind", function() {
     beforeEach(function() {
       spyOn(this.hoodie, "unbind");
@@ -1577,9 +1613,10 @@ describe("Hoodie.LocalStore", function() {
     });
   });
 
-  // 
+  //
   describe("#decoratePromises", function() {
     var method, _i, _len, _ref, _results;
+
     it("should decorate promises returned by the store", function() {
       var funk, promise;
       funk = jasmine.createSpy('funk');
@@ -1592,6 +1629,7 @@ describe("Hoodie.LocalStore", function() {
       promise.funk();
       return expect(funk).wasCalled();
     });
+
     _ref = "add find findAll findOrAdd update updateAll remove removeAll".split(" ");
     _results = [];
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -1604,9 +1642,11 @@ describe("Hoodie.LocalStore", function() {
           }
         });
         promise = this.store[method]('task', '12');
-        return expect(promise.funk()).toBePromise();
+        expect(promise.funk()).toBePromise();
       }));
     }
-    return _results;
+
+    _results;
   });
+
 });

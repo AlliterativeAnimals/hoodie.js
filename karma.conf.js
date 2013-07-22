@@ -1,5 +1,5 @@
 // Karma configuration
-// Generated on Fri Jul 12 2013 09:10:47 GMT+0100 (BST)
+// Generated on Mon Jul 22 2013 13:50:18 GMT+0100 (BST)
 
 
 // base path, that will be used to resolve files and exclude
@@ -8,13 +8,15 @@ basePath = '';
 
 // list of files / patterns to load in the browser
 files = [
-  JASMINE,
-  JASMINE_ADAPTER,
+  MOCHA,
+  MOCHA_ADAPTER,
   'test/lib/bind.js',
-  'lib/jquery/jquery.js',
+  { pattern: 'lib/jquery/jquery.js', watched: false, included: true },
+  { pattern: 'lib/expect/expect.js', watched: false, included: true },
+  { pattern: 'lib/sinon.js', watched: false, included: true },
   'src/utils.js',
   'src/events.js',
-  'test/lib/jasmine-helpers.js',
+  'test/lib/helpers.js',
   'src/hoodie.js',
   'src/core/account.js',
   'src/core/store.js',
@@ -29,12 +31,16 @@ files = [
   'src/extensions/share.js',
   'src/extensions/share_instance.js',
   'test/mocks/*.js',
-  'test/specs/**/*.spec.js'
+  //'test/specs/**/*.spec.js'
+  'test/specs/events.spec.js',
+  'test/specs/core/remote.spec.js',
+  'test/specs/core/config.spec.js'
 ];
 
 
 // list of files to exclude
 exclude = [
+
 ];
 
 
@@ -81,4 +87,4 @@ captureTimeout = 60000;
 
 // Continuous Integration mode
 // if true, it capture browsers, run tests and exit
-singleRun = true;
+singleRun = false;
