@@ -1,6 +1,6 @@
 'use strict';
 
-describe("Hoodie.Config", function() {
+describe('Hoodie.Config', function() {
 
   beforeEach(function() {
     this.hoodie = new Mocks.Hoodie();
@@ -19,25 +19,25 @@ describe("Hoodie.Config", function() {
     this.sandbox.restore();
   });
 
-  describe("constructor(@hoodie, options)", function() {
+  describe('constructor(@hoodie, options)', function() {
 
-    it("should default @type to '$config'", function() {
-      var config;
-      config = new Hoodie.Config(this.hoodie);
+    it('should default @type to \'$config\'', function() {
+      var config = new Hoodie.Config(this.hoodie);
+
       expect(config.type).to.eql('$config');
     });
 
-    it("should default @id to 'hoodie'", function() {
-      var config;
-      config = new Hoodie.Config(this.hoodie);
+    it('should default @id to \'hoodie\'', function() {
+      var config = new Hoodie.Config(this.hoodie);
+
       expect(config.id).to.eql('hoodie');
     });
 
   });
 
-  describe("#set(key, value)", function() {
+  describe('#set(key, value)', function() {
 
-    it("should save a $config with key: value", function() {
+    it('should save a $config with key: value', function() {
       this.config.set('funky', 'fresh');
 
       expect(this.updateSpy.calledWith('$config', 'hoodie', {
@@ -47,7 +47,7 @@ describe("Hoodie.Config", function() {
       })).to.be.ok();
     });
 
-    it("should make the save silent for local settings starting with _", function() {
+    it('should make the save silent for local settings starting with _', function() {
       this.config.set('_local', 'fresh');
 
       expect(this.updateSpy.calledWith('$config', 'hoodie', {
@@ -59,19 +59,20 @@ describe("Hoodie.Config", function() {
 
   });
 
-  describe("#get(key)", function() {
+  describe('#get(key)', function() {
 
-    it("should get the config using store", function() {
+    it('should get the config using store', function() {
       this.config = new Hoodie.Config(this.hoodie);
+
       expect(this.config.get('funky')).to.eql('fresh');
       expect(this.findSpy.called).to.be.ok();
     });
 
   });
 
-  describe("#remove(key)", function() {
+  describe('#remove(key)', function() {
 
-    it("should remove the config using store", function() {
+    it('should remove the config using store', function() {
       this.config.set('funky', 'fresh');
       this.config.remove('funky');
 

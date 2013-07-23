@@ -6,18 +6,18 @@ $.ajax = function() {
   var promise = $.Deferred().promise();
   promise.abort = function() {};
   return promise;
-}
+};
 
 _when = function(description, specs) {
-  return describe("when " + description, specs);
+  describe("when " + description, specs);
 };
 
 _and = function(description, specs) {
-  return describe("and " + description, specs);
+  describe("and " + description, specs);
 };
 
 _but = function(description, specs) {
-  return describe("but " + description, specs);
+  describe("but " + description, specs);
 };
 
 //jasmine.Matchers.prototype.toBePromise = function() {

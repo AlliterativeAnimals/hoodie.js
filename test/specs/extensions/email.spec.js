@@ -1,12 +1,18 @@
-describe("Hoodie.Email", function() {
+'use strict';
+
+describe('Hoodie.Email', function() {
+
   beforeEach(function() {
-    this.hoodie = new Mocks.Hoodie;
+    this.hoodie = new Mocks.Hoodie();
     this.email = new Hoodie.Email(this.hoodie);
-    this.errorSpy = jasmine.createSpy('error');
-    this.successSpy = jasmine.createSpy('success');
+
+    this.errorSpy = sinon.spy();
+    this.successSpy = sinon.spy();
   });
-  describe("hoodie.email(emailAttributes)", function() {
-    
+
+  describe('hoodie.email(emailAttributes)', function() {
+
   });
+
 });
 
