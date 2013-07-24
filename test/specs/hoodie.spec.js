@@ -50,24 +50,17 @@ describe('Hoodie', function() {
       expect(Hoodie.prototype.checkConnection.called).to.be.ok();
     });
 
-    //it('store has to be initialized before remote', function() {
-      //var hoodie, order;
+    xit('store has to be initialized before remote', function() {
+      var hoodie, order;
 
-      //order = [];
-      //hoodie = new window.Hoodie();
+      order = [];
+      hoodie = this.hoodie;
 
-      //this.sandbox.stub(Hoodie, 'LocalStore').returns(function() {
-        //order.push('store');
-        //new Mocks.Hoodie().store;
-      //});
+      this.sandbox.stub(Hoodie, 'AccountRemote').returns(new Mocks.Hoodie().remote);
+      this.sandbox.stub(Hoodie, 'LocalStore').returns(new Mocks.Hoodie().store);
 
-      //this.sandbox.stub(Hoodie, 'AccountRemote').returns(function() {
-        //order.push('remote');
-        //new Mocks.Hoodie().remote;
-      //});
-
-      //expect(order.join(',')).to.eql('store,remote');
-    //});
+      expect(order.join(',')).to.eql('store,remote');
+    });
 
   });
 
@@ -139,19 +132,23 @@ describe('Hoodie', function() {
     });
 
     _when('request fails with empty response', function() {
-      //beforeEach(function() {
-        //this.ajaxDefer.reject({
-          //xhr: {
-            //responseText: ''
-          //}
-        //});
-      //});
 
-      //it('should return a rejected promis with Cannot reach backend error', function() {
-        //expect(this.hoodie.request('GET', '/')).toBeRejectedWith({
-          //error: 'Cannot connect to Hoodie server at http://couch.example.com'
-        //});
-      //});
+      beforeEach(function() {
+        this.ajaxDefer.reject({
+          xhr: {
+            responseText: ''
+          }
+        });
+      });
+
+      it('should return a rejected promis with Cannot reach backend error', function() {
+        this.hoodie.request('GET', '/').then(this.noop, function (res) {
+          expect(res).to.eql({
+            error: 'Cannot connect to Hoodie server at http://couch.example.com'
+          });
+        });
+      });
+
     });
 
   });
