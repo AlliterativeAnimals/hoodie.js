@@ -4,7 +4,7 @@ describe("Hoodie.Remote", function() {
 
   beforeEach(function() {
 
-    this.hoodie = new Mocks.Hoodie;
+    this.hoodie = new Mocks.Hoodie();
 
     this.sandbox = sinon.sandbox.create();
     this.onSpy = this.sandbox.spy(this.hoodie, 'on');

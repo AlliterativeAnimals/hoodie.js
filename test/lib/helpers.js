@@ -20,6 +20,8 @@ _but = function(description, specs) {
   describe("but " + description, specs);
 };
 
+//mocha.setup({globals: ['setTimeout']});
+
 //jasmine.Matchers.prototype.toBePromise = function() {
   //return this.actual.done && !this.actual.resolve;
 //};
