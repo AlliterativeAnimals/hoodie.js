@@ -27,7 +27,7 @@ describe("Hoodie.LocalStore", function() {
     this.sandbox.restore();
   });
 
-  describe("constructor", function() {
+  xdescribe("constructor", function() {
 
     _when("there are dirty objects in localStorage", function() {
 
@@ -81,7 +81,7 @@ describe("Hoodie.LocalStore", function() {
   });
 
   //
-  describe("outside events", function() {
+  xdescribe("outside events", function() {
 
     _when("account:cleanup event gets fired", function() {
 
@@ -183,7 +183,7 @@ describe("Hoodie.LocalStore", function() {
   });
 
   //
-  describe("#save(type, id, object, options)", function() {
+  xdescribe("#save(type, id, object, options)", function() {
 
     beforeEach(function() {
       this.sandbox.stub(this.store, "_now").returns('now');
@@ -716,7 +716,7 @@ describe("Hoodie.LocalStore", function() {
   });
 
   //
-  describe("#add(type, object, options)", function() {
+  xdescribe("#add(type, object, options)", function() {
 
     beforeEach(function() {
       this.sandbox.stub(this.store, "save").returns('promise');
@@ -758,7 +758,7 @@ describe("Hoodie.LocalStore", function() {
   });
 
   //
-  describe("#updateAll(objects)", function() {
+  xdescribe("#updateAll(objects)", function() {
 
     beforeEach(function() {
       this.sandbox.stub(this.hoodie, "isPromise").returns(false);
@@ -868,7 +868,7 @@ describe("Hoodie.LocalStore", function() {
   });
 
   //
-  describe("#find(type, id)", function() {
+  xdescribe("#find(type, id)", function() {
 
     beforeEach(function() {
       this.sandbox.stub(this.store, "cache");
@@ -959,7 +959,7 @@ describe("Hoodie.LocalStore", function() {
   });
 
   //
-  describe("#findAll(filter)", function() {
+  xdescribe("#findAll(filter)", function() {
 
     var with_2CatsAnd_3Dogs;
 
@@ -997,6 +997,7 @@ describe("Hoodie.LocalStore", function() {
     });
 
     with_2CatsAnd_3Dogs(function() {
+
       it("should sort by createdAt", function() {
         this.store.findAll().then(function (res) {
           expect(res).to.eql([
@@ -1296,7 +1297,7 @@ describe("Hoodie.LocalStore", function() {
   });
 
   //
-  describe("#cache(type, id, object)", function() {
+  xdescribe("#cache(type, id, object)", function() {
 
     beforeEach(function() {
       this.sandbox.spy(this.store, "markAsChanged");
@@ -1518,7 +1519,7 @@ describe("Hoodie.LocalStore", function() {
   });
 
   //
-  describe("#clear()", function() {
+  xdescribe("#clear()", function() {
 
     it("should return a promise", function() {
       var promise = this.store.clear();
@@ -1571,7 +1572,7 @@ describe("Hoodie.LocalStore", function() {
   });
 
   //
-  describe("#hasLocalChanges(type, id)", function() {
+  xdescribe("#hasLocalChanges(type, id)", function() {
 
     _when("no arguments passed", function() {
 
@@ -1680,7 +1681,7 @@ describe("Hoodie.LocalStore", function() {
   });
 
   //
-  describe("#markAsChanged(type, id, object)", function() {
+  xdescribe("#markAsChanged(type, id, object)", function() {
 
     beforeEach(function() {
       this.store._dirty = {};
@@ -1719,7 +1720,7 @@ describe("Hoodie.LocalStore", function() {
   });
 
   //
-  describe("#markAllAsChanged(type, id, object)", function() {
+  xdescribe("#markAllAsChanged(type, id, object)", function() {
 
     beforeEach(function() {
       this.findAllDefer = this.hoodie.defer();
