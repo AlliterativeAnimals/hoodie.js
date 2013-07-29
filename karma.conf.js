@@ -36,13 +36,13 @@ files = [
   'test/specs/core/account.spec.js',
   'test/specs/core/account_remote.spec.js',
   'test/specs/core/config.spec.js',
-  'test/specs/core/local_store.spec.js',
+  //'test/specs/core/local_store.spec.js',
   //'test/specs/core/remote.spec.js',
-  'test/specs/core/store.spec.js',
-  'test/specs/extensions/email.spec.js',
-  'test/specs/extensions/share.spec.js',
-  'test/specs/extensions/share_instance.spec.js',
-  'test/specs/extensions/user.spec.js'
+  //'test/specs/core/store.spec.js',
+  //'test/specs/extensions/email.spec.js',
+  //'test/specs/extensions/share.spec.js',
+  //'test/specs/extensions/share_instance.spec.js',
+  //'test/specs/extensions/user.spec.js'
 ];
 
 
